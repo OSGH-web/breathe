@@ -1,0 +1,148 @@
+:root {
+    --n-rows: 5.5;
+    --n-cols: 2;
+
+
+    --scale-factor: 40;
+
+    --row-height: calc(4px * var(--scale-factor));
+    --row-gap: calc(1px * var(--scale-factor));
+
+    --col-width: calc(4px * var(--scale-factor));
+    --col-gap: calc(2px * var(--scale-factor));
+
+
+    --table-height: calc((var(--n-rows) * var(--row-height)) + ((var(--n-rows) + 1) * var(--row-gap)));
+    --table-width: calc((var(--n-cols) * var(--col-width)) + ((var(--n-cols)) * var(--col-gap)));
+}
+
+body {
+    margin: 0;
+}
+
+body.lightmode {
+    background-color: white;
+}
+
+body.darkmode {
+    background-color: black;
+}
+
+
+p {
+    text-align: right;
+    width: 100%
+}
+
+.lightmode p {
+    background-color: white;
+    color: black;
+}
+
+.darkmode p {
+    background-color: black;
+    color: white;
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+    /* background-color: white; */
+    height: var(--table-height);
+    width: var(--table-width);
+}
+
+.display, .table {
+    margin-top: var(--row-gap);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+
+    width: fit-content;
+    /* background-color: black; */
+    justify-content: flex-end;
+}
+
+
+.double-height-cell {
+    height: calc(2 * var(--row-height) + var(--row-gap));
+}
+
+.double-col {
+    width: calc(2 * var(--col-width) + var(--col-gap));
+    margin-left: var(--col-gap);
+}
+
+.triple-col {
+    width: calc(3 * var(--col-width) + 2 * var(--col-gap));
+    margin-left: var(--col-gap);
+}
+
+.margin-left-0 {
+    margin-left: 0;
+}
+.half-col {
+    width: calc(0.5 * var(--col-width));
+    min-width: calc(0.5 * var(--col-width));
+    margin-left: var(--col-gap);
+
+}
+
+.col {
+    width: var(--col-width);
+    min-width: var(--col-width);
+    margin-left: var(--col-gap);
+
+}
+.position-absolute {
+    position: absolute;
+}
+
+
+.text-align-left {
+    text-align: left;
+}
+
+
+.color-red {
+    color: red;
+}
+
+.button {
+    width: min-content;
+}
+
+.lightmode .button:hover {
+    background-color: yellow;
+}
+.darkmode .button:hover {
+    background-color: red;
+}
+
+.lightmode .background-color-yellow {
+    background-color: yellow;
+}
+
+.darkmode .background-color-yellow {
+    background-color: red;
+}
+
+
+.background-color-red {
+    background-color: red;
+}
+.background-color-black {
+    /* background-color: black; */
+}
+
+.relative {
+    position: relative;
+}
+.absolute {
+    position: absolute;
+    left: calc(6 * var(--col-gap));
+    min-width: calc(0.75 * var(--col-gap));
+    width: min-content;
+}
