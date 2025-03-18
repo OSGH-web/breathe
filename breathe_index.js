@@ -61,6 +61,7 @@ function init() {
   darkmodeToggleButton.addEventListener("click", () => {
     const body = document.querySelector("body");
     body.classList.toggle("darkmode");
+    body.classList.toggle("lightmode");
 
     const isDarkMode = body.classList.contains("darkmode");
     if (isDarkMode) {
@@ -80,7 +81,7 @@ function init() {
     document.querySelector("body").classList.add("darkmode");
     document.querySelector("body").classList.remove("lightmode");
     darkmodeToggleButton.innerText = "☼";
-  } else if (darkModeState === "false") {
+  } else {
     document.querySelector("body").classList.add("lightmode");
     document.querySelector("body").classList.remove("darkmode");
     darkmodeToggleButton.innerText = "☾";
