@@ -37,22 +37,68 @@ const state = {
 };
 
 function init() {
+  // initialize table entries
+  function secondsToMinutes(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    let formattedMinutes = String(minutes).padStart(2, "0");
+    if (minutes < 10) {
+      formattedMinutes = String(minutes);
+    }
+    const formattedSeconds = String(remainingSeconds).padStart(2, "0");
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
+
   const table = document.getElementById("table");
   for (let i = 0; i < data.length; i++) {
     const [inVal, outVal] = data[i];
     const inElement = document.createElement("p");
     inElement.className = "p-7 Helvetica col";
-    inElement.innerText = inVal;
+    inElement.innerText = secondsToMinutes(inVal);
+
     const outElement = document.createElement("p");
     outElement.className = "p-7 Helvetica col";
-    outElement.innerText = outVal;
+    outElement.innerText = secondsToMinutes(outVal);
+
+    const totalElement = document.createElement("p");
+    totalElement.className = "p-7 Helvetica col";
+    totalElement.innerText = secondsToMinutes(inVal + outVal);
 
     const row = document.createElement("div");
     row.className = "row";
     row.appendChild(inElement);
     row.appendChild(outElement);
+    row.appendChild(totalElement);
     table.appendChild(row);
   }
+
+  let inSum = 0;
+  let outSum = 0;
+  for (let i = 0; i < data.length; i++) {
+    const [inVal, outVal] = data[i];
+    inSum += inVal;
+    outSum += outVal;
+  }
+
+  // initialize table sums
+  const inTotalElement = document.createElement("p");
+  inTotalElement.className = "p-7 Helvetica-Bold col";
+  inTotalElement.innerText = secondsToMinutes(inSum);
+
+  const outTotalElement = document.createElement("p");
+  outTotalElement.className = "p-7 Helvetica-Bold col";
+  outTotalElement.innerText = secondsToMinutes(outSum);
+
+  const totalTotalElement = document.createElement("p");
+  totalTotalElement.className = "p-7 Helvetica-Bold col";
+  totalTotalElement.innerText = secondsToMinutes(inSum + outSum);
+
+  const row = document.createElement("div");
+  row.className = "row";
+  row.appendChild(inTotalElement);
+  row.appendChild(outTotalElement);
+  row.appendChild(totalTotalElement);
+  table.appendChild(row);
 
   startStopButton = document.getElementById("button");
   startStopButton.addEventListener("click", toggleStarted);
