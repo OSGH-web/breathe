@@ -34,21 +34,23 @@ const state = {
   started: false,
 
   timeout: 1000,
+
+  totalTimeString: "",
 };
+
+function secondsToMinutes(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  let formattedMinutes = String(minutes).padStart(2, "0");
+  if (minutes < 10) {
+    formattedMinutes = String(minutes);
+  }
+  const formattedSeconds = String(remainingSeconds).padStart(2, "0");
+  return `${formattedMinutes}:${formattedSeconds}`;
+}
 
 function init() {
   // initialize table entries
-  function secondsToMinutes(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    let formattedMinutes = String(minutes).padStart(2, "0");
-    if (minutes < 10) {
-      formattedMinutes = String(minutes);
-    }
-    const formattedSeconds = String(remainingSeconds).padStart(2, "0");
-    return `${formattedMinutes}:${formattedSeconds}`;
-  }
-
   const table = document.getElementById("table");
   for (let i = 0; i < data.length; i++) {
     const [inVal, outVal] = data[i];
@@ -91,7 +93,9 @@ function init() {
 
   const totalTotalElement = document.createElement("p");
   totalTotalElement.className = "p-7 Helvetica-Bold col";
-  totalTotalElement.innerText = secondsToMinutes(inSum + outSum);
+  totalTotalElement.id = "grand-total";
+  state["totalTimeString"] = secondsToMinutes(inSum + outSum);
+  totalTotalElement.innerText = state["totalTimeString"];
 
   const row = document.createElement("div");
   row.className = "row";
@@ -162,6 +166,7 @@ function updateState() {
 
     if (state["dataRow"] === data.length) {
       state["dataRow"] = 0;
+      state["totalTimeMs"] = 0;
       state.started = false;
     }
   }
@@ -201,8 +206,9 @@ function render() {
   const targetTime = data[state["dataRow"]][state["breathingIn"] ? 0 : 1];
   targetTimeElement.innerText = `/${targetTime}`;
 
-  // const totalTimeElement = document.getElementById("total-time");
-  // totalTimeElement.innerText = state["totalTimeMs"] / 1000;
+  const totalTimeElement = document.getElementById("grand-total");
+  const elapsedTimeString = secondsToMinutes(state["totalTimeMs"] / 1000);
+  totalTimeElement.innerText = `${elapsedTimeString} / ${state["totalTimeString"]}`;
 
   const startStopButton = document.getElementById("button");
   if (state["started"]) {
