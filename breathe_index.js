@@ -175,6 +175,9 @@ function init() {
 function toggleStarted() {
   state["started"] = !state["started"];
   if (state["started"]) {
+    state["noSleep"] = new NoSleep();
+    state["noSleep"].enable();
+
     updateState();
   }
 }
