@@ -156,16 +156,15 @@ function updateState() {
       state["dataRow"] += 1;
     }
 
-    if (state["dataRow"] === data.length) {
-      state.started = false;
-    }
-
     state["breathingIn"] = !state["breathingIn"];
 
     state["timeMs"] = 0;
-  } else {
-  }
 
+    if (state["dataRow"] === data.length) {
+      state["dataRow"] = 0;
+      state.started = false;
+    }
+  }
   setTimeout(updateState, state["timeout"]);
   render();
 }
