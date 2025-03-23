@@ -36,7 +36,17 @@ const state = {
   timeout: 1000,
 
   totalTimeString: "",
+
+  soundEnabled: false,
 };
+
+function playNote(note) {
+  var audio = new Audio("./assets/audio/JAY_DEE_vol_02_kit_12_shaker.wav");
+  audio.preservesPitch = false;
+  rate = (12 + note) / 12;
+  audio.playbackRate = rate;
+  audio.play();
+}
 
 function secondsToMinutes(seconds) {
   const minutes = Math.floor(seconds / 60);
@@ -107,6 +117,20 @@ function init() {
   startStopButton = document.getElementById("button");
   startStopButton.addEventListener("click", toggleStarted);
 
+  soundToggleButton = document.getElementById("sound-toggle");
+  soundToggleButton.addEventListener("click", () => {
+    state["soundEnabled"] = !state["soundEnabled"];
+    if (state["soundEnabled"]) {
+      soundToggleButton.classList.remove("strikethrough");
+    } else {
+      soundToggleButton.classList.add("strikethrough");
+    }
+
+    const url = new URL(window.location);
+    url.searchParams.set("soundenabled", state["soundEnabled"]);
+    history.pushState({}, "", url);
+  });
+
   darkmodeToggleButton = document.getElementById("darkmode-toggle");
   darkmodeToggleButton.addEventListener("click", () => {
     const body = document.querySelector("body");
@@ -126,6 +150,15 @@ function init() {
   });
 
   const urlParams = new URLSearchParams(window.location.search);
+  const soundEnabledState = urlParams.get("soundenabled");
+  if (soundEnabledState === "true") {
+    state["soundEnabled"] = true;
+    soundToggleButton.classList.remove("strikethrough");
+  } else {
+    state["soundEnabled"] = false;
+    soundToggleButton.classList.add("strikethrough");
+  }
+
   const darkModeState = urlParams.get("darkmode");
   if (darkModeState === "true") {
     document.querySelector("body").classList.add("darkmode");
@@ -156,6 +189,9 @@ function updateState() {
   state["totalTimeMs"] += state["timeout"];
   const targetTime = data[state["dataRow"]][state["breathingIn"] ? 0 : 1];
   if (state.timeMs >= targetTime * 1000) {
+    if (state["soundEnabled"]) {
+      playNote(0);
+    }
     if (!state["breathingIn"]) {
       state["dataRow"] += 1;
     }

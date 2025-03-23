@@ -80,9 +80,6 @@ p {
     margin-left: var(--col-gap);
 }
 
-.margin-left-0 {
-    margin-left: 0;
-}
 .half-col {
     width: calc(0.5 * var(--col-width));
     min-width: calc(0.5 * var(--col-width));
@@ -96,6 +93,11 @@ p {
     margin-left: var(--col-gap);
 
 }
+
+.margin-left-0 {
+    margin-left: 0;
+}
+
 .position-absolute {
     position: absolute;
 }
@@ -145,4 +147,8 @@ p {
     left: calc(6 * var(--col-gap));
     min-width: calc(0.75 * var(--col-gap));
     width: min-content;
+}
+
+.strikethrough {
+    text-decoration: line-through;
 }
